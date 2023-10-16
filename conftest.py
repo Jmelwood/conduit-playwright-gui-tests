@@ -10,7 +10,7 @@ password = person.password()
 
 
 @pytest.fixture(scope="session", autouse=True)
-def generic_user(playwright: Playwright) -> dict[str, str]:
+def generic_user(playwright: Playwright):
     """
     Creates a generic user using the API directly.
     Returns the user's information given back by the API,
