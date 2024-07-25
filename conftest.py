@@ -1,7 +1,10 @@
+from pathlib import Path
 import pytest
 from playwright.sync_api import Playwright, expect
 from mimesis import Person
 from mimesis.locales import Locale
+
+from pages.login_page import LoginPage
 
 person = Person(Locale.EN)
 username = person.username()
@@ -40,10 +43,9 @@ def generic_user(playwright: Playwright):
     context = browser.new_context()
     page = context.new_page()
     page.goto("https://react-ts-redux-realworld-example-app.netlify.app/#/login")
-    page.get_by_placeholder("Email").fill(email)
-    page.get_by_placeholder("Password").fill(password)
-    page.get_by_role("button", name="Sign in").click()
+    LoginPage(page).login(createdUser["user"])
     expect(page.get_by_role("link", name=username)).to_be_visible(timeout=10_000)
+    Path("fixtures").mkdir(parents=True, exist_ok=True)
     context.storage_state(path="fixtures/generic_user.json")
     browser.close()
     yield createdUser["user"]

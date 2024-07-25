@@ -13,12 +13,22 @@ def before_each_after_each(page: Page):
 
 
 def test_global_feed_loads_articles(page: Page):
+    """
+    Given I navigate to the main "feed" page\n
+    When I click on the "Global Feed" tab\n
+    Then I will see at least one published article
+    """
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()
     expect(feed_page.article_items.first).to_be_visible()
 
 
 def test_selecting_tag_filters_articles(page: Page):
+    """
+    Given I navigate to the main "feed" page\n
+    When I select any tag from the popular tags list\n
+    Then every article present contains the same associated tag
+    """
     feed_page = FeedPage(page)
     # Pick a random tag from the popular tags list
     numeric = Numeric()
@@ -39,7 +49,12 @@ def test_selecting_tag_filters_articles(page: Page):
 
 
 def test_guest_cannot_favorite_article(page: Page):
-    # Instead of favoriting the article, it will redirect to the login page
+    """
+    Given I am not logged into an account\n
+    And I navigate to the main "feed" page\n
+    When I click on an article's "favorite" button\n
+    Then I am directed to log into my account
+    """
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()
     feed_page.article_favorite_button.first.click()
@@ -48,6 +63,15 @@ def test_guest_cannot_favorite_article(page: Page):
 
 @pytest.mark.browser_context_args(storage_state="fixtures/generic_user.json")
 def test_loggedin_user_favorites_article(page: Page):
+    """
+    Given I have logged into my account\n
+    And I navigate to the main "feed" page\n
+    When I click on an article's "favorite" button\n
+    Then the button will change from being outlined to filled in\n
+    And the counter will increment by 1\n
+    When I click on an article's "favorite" button again\n
+    Then the reverse will occur (filled in -> outlined, decrement by 1)
+    """
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()
     # Button should be outlined (not filled) and record current count
@@ -64,6 +88,12 @@ def test_loggedin_user_favorites_article(page: Page):
 
 
 def test_click_article_for_details_page(page: Page):
+    """
+    Given I navigate to the main "feed" page\n
+    And At least one article is present/loaded\n
+    When I click on an article's title\n
+    Then I am navigated to the details page for the selected article
+    """
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()
     # Pick a random article
@@ -79,9 +109,15 @@ def test_click_article_for_details_page(page: Page):
 
 def test_pagination_set_to_10(page: Page):
     """
-    Simple check to ensure there's only 10 articles at a time.
-    Chronological order would also be good to check, but the content
-    is mostly spam on a particular date, so it's not very useful.
+    Given I navigate to the main "feed" page\n
+    When I click on the "Global Feed" tab\n
+    Then There are at most 10 articles\n
+    When I click on a "page number" button at the bottom of the screen\n
+    Then A new set of articles load\n
+    Then There are at most 10 articles
+
+    NOTE: Chronological order would also be good to check, but the content
+    is mostly spam on a particular date, so it's not very useful here.
     """
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()

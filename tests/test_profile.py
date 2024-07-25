@@ -26,6 +26,13 @@ def before_each_after_each(page: Page):
 
 
 def test_guest_can_login(page: Page, generic_user: dict[str, str]):
+    """
+    Given I have a registered account\n
+    When I navigate to the login page\n
+    And I input/submit my credentials\n
+    Then The main "feed" page loads successfully\n
+    And The navigation bar changes to show my submitted username
+    """
     NavBarPage(page).goToLoginPage()
     LoginPage(page).login(generic_user)
     expect(page.get_by_role("link", name=generic_user["username"])).to_be_visible(
@@ -34,6 +41,13 @@ def test_guest_can_login(page: Page, generic_user: dict[str, str]):
 
 
 def test_guest_can_create_user(page: Page, new_user: dict[str, str]):
+    """
+    Given I am a new user\n
+    When I navigate to the register page\n
+    And I input/submit new credentials\n
+    Then The main "feed" page loads successfully\n
+    And The navigation bar changes to show my submitted username
+    """
     NavBarPage(page).goToRegisterPage()
     RegisterPage(page).register(new_user)
     expect(page.get_by_role("link", name=new_user["username"])).to_be_visible(
@@ -43,6 +57,11 @@ def test_guest_can_create_user(page: Page, new_user: dict[str, str]):
 
 @pytest.mark.browser_context_args(storage_state="fixtures/generic_user.json")
 def test_profile_page_has_correct_info(page: Page, generic_user: dict[str, str]):
+    """
+    Given I am logged into the application\n
+    When I navigate to my profile page
+    Then I see the correct (my) username and profile picture
+    """
     page.goto(f"/#/profile/{generic_user['username']}")
     expect(page.get_by_role("img")).to_have_attribute("src", generic_user["image"])
     expect(page.get_by_role("heading", name=generic_user["username"])).to_be_visible()
