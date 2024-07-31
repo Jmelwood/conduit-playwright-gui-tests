@@ -174,3 +174,6 @@ fixtures/generic_user.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Test reports
+reports/

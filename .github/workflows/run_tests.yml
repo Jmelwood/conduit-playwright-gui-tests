@@ -1,0 +1,41 @@
+name: 'Run All Tests'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        # This is the version of the action for setting up Python, not the Python version.
+        uses: actions/setup-python@v5
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.12.x'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+    
+      - name: Setup Playwright
+        run: python -m playwright install --with-deps chromium
+    
+      - name: Run tests
+        run: python -m pytest --junit-xml=reports/test-report.xml --base-url=https://react-ts-redux-realworld-example-app.netlify.app
+    
+      - name: Publish report
+        if: always()
+        uses: pmeier/pytest-results-action@main
+        with:
+          path: reports/test-report.xml
+          summary: true
