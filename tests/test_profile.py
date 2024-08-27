@@ -21,7 +21,7 @@ def new_user():
 
 @pytest.fixture(scope="function", autouse=True)
 def before_each_after_each(page: Page):
-    page.goto("/#/")
+    page.goto("/")
     yield
 
 
@@ -63,5 +63,5 @@ def test_profile_page_has_correct_info(page: Page, generic_user: dict[str, str])
     Then I see the correct (my) username and profile picture
     """
     page.goto(f"/#/profile/{generic_user['username']}")
-    expect(page.get_by_role("img")).to_have_attribute("src", generic_user["image"])
-    expect(page.get_by_role("heading", name=generic_user["username"])).to_be_visible()
+    expect(page.locator("img.user-pic")).to_have_attribute("src", generic_user["image"])
+    expect(NavBarPage(page).profile_link).to_have_text(generic_user["username"])

@@ -11,9 +11,16 @@ username = person.username()
 email = person.email()
 password = person.password()
 
+@pytest.fixture(scope="session")
+def base_url(pytestconfig: pytest.Config):
+    """
+    The fixture provided by pytest-base-url (which Playwright uses) to allow setting
+    a default value if the option isn't already specified
+    """
+    return pytestconfig.getoption("--base-url") or 'https://demo.realworld.how'
 
 @pytest.fixture(scope="session", autouse=True)
-def generic_user(playwright: Playwright):
+def generic_user(playwright: Playwright, base_url):
     """
     Creates a generic user using the API directly.
     Returns the user's information given back by the API,
@@ -42,7 +49,7 @@ def generic_user(playwright: Playwright):
     browser = playwright.chromium.launch()
     context = browser.new_context()
     page = context.new_page()
-    page.goto("https://react-ts-redux-realworld-example-app.netlify.app/#/login")
+    page.goto(f'{base_url}/login')
     LoginPage(page).login(createdUser["user"])
     expect(page.get_by_role("link", name=username)).to_be_visible(timeout=10_000)
     Path("fixtures").mkdir(parents=True, exist_ok=True)

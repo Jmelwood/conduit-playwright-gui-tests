@@ -8,7 +8,7 @@ from pages.feed_page import FeedPage
 
 @pytest.fixture(scope="function", autouse=True)
 def before_each_after_each(page: Page):
-    page.goto("/#/")
+    page.goto("/")
     yield
 
 
@@ -58,7 +58,7 @@ def test_guest_cannot_favorite_article(page: Page):
     feed_page = FeedPage(page)
     feed_page.global_feed_link.click()
     feed_page.article_favorite_button.first.click()
-    expect(page).to_have_url("/#/login")
+    expect(page).to_have_url("/register")
 
 
 @pytest.mark.browser_context_args(storage_state="fixtures/generic_user.json")

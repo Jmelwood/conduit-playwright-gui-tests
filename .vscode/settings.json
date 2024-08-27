@@ -4,6 +4,6 @@
   "python.analysis.autoImportCompletions": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": ["--base-url=https://react-ts-redux-realworld-example-app.netlify.app"],
+  "python.testing.pytestArgs": ["--headed"],
   "flake8.args": ["--max-line-length=88", "--extend-ignore=E203"]
 }

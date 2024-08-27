@@ -16,9 +16,9 @@ Additionally, see the `requirements.txt` file for the Python packages needed, an
 ## How to run tests
 
 1. Clone this repository (`git clone https://github.com/Jmelwood/conduit-playwright-gui-tests.git`)
-2. Ensure all dependent packages are installed as listed in the `requirements.txt` file, under your Python package manager. If using pip, you can simply run `pip install -r requirements.txt`.
+2. Ensure all dependent packages are installed as listed in the `requirements.txt` file, under your Python package manager. If using pip, you can simply run `python -m pip install -r requirements.txt`.
     - This includes playwright's separate installation command: `python -m playwright install`
-3. To run all tests normally, just execute `python -m pytest --base-url=https://react-ts-redux-realworld-example-app.netlify.app`.
+3. To run all tests normally, just execute `python -m pytest`.
 4. For debugging support, you can try adding some of these arguments: `--headed`, `--slowmo=XXX`, `--tracing=on`, `--video=on`, `--screenshot=on`. More information on what they do can be [found here](https://playwright.dev/python/docs/test-runners#cli-arguments).
 5. You can also specify the environment variable `PWDEBUG=1` to open up the Playwright inspector, and run the test(s) through that tool.
 

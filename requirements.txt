@@ -1,6 +1,6 @@
-pytest ~= 7.4.4
-pytest-playwright ~= 0.4.4
-mimesis ~= 11.1.0
-black ~= 23.9.1
-flake8 ~= 6.1.0
-pre-commit ~= 3.4.0
+pytest ~= 8.3.2
+pytest-playwright ~= 0.5.1
+mimesis ~= 17.0.0
+black ~= 24.8.0
+flake8 ~= 7.1.1
+pre-commit ~= 3.8.0

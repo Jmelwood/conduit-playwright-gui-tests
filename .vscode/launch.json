@@ -6,24 +6,22 @@
   "configurations": [
     {
       "name": "Playwright-Pytest Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "module": "pytest",
       "args": [
         "--headed",
-        "--base-url=https://react-ts-redux-realworld-example-app.netlify.app",
         "--slowmo=250",
         "--tracing=on",
         "--video=on",
-        "--screenshot=on",
-        "${file}"
+        "--screenshot=on"
       ],
       "console": "integratedTerminal",
       "justMyCode": true
     },
     {
       "name": "Run Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
