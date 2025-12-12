@@ -17,7 +17,7 @@ def base_url(pytestconfig: pytest.Config):
     The fixture provided by pytest-base-url (which Playwright uses) to allow setting
     a default value if the option isn't already specified
     """
-    return pytestconfig.getoption("--base-url") or 'https://demo.realworld.how'
+    return pytestconfig.getoption("--base-url") or 'https://demo.realworld.io'
 
 @pytest.fixture(scope="session", autouse=True)
 def generic_user(playwright: Playwright, base_url):
@@ -25,7 +25,7 @@ def generic_user(playwright: Playwright, base_url):
     Creates a generic user using the API directly.
     Returns the user's information given back by the API,
     including their profile picture URL and authentication token.
-    Additionally saves the local storage token for ease of use.
+    Additionally, saves the local storage token for ease of use.
     """
 
     api_request_context = playwright.request.new_context(
@@ -42,17 +42,17 @@ def generic_user(playwright: Playwright, base_url):
         },
     )
     assert api_create_user.status == 201
-    createdUser: dict = api_create_user.json()
-    createdUser["user"]["password"] = password
+    created_user: dict = api_create_user.json()
+    created_user["user"]["password"] = password
     # Additionally, log in as the user and grab the local storage
     # to easily pre-authenticate for tests
     browser = playwright.chromium.launch()
     context = browser.new_context()
     page = context.new_page()
     page.goto(f'{base_url}/login')
-    LoginPage(page).login(createdUser["user"])
+    LoginPage(page).login(created_user["user"])
     expect(page.get_by_role("link", name=username)).to_be_visible(timeout=10_000)
     Path("fixtures").mkdir(parents=True, exist_ok=True)
     context.storage_state(path="fixtures/generic_user.json")
     browser.close()
-    yield createdUser["user"]
+    yield created_user["user"]

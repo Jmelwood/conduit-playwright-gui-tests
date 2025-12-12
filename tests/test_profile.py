@@ -33,7 +33,7 @@ def test_guest_can_login(page: Page, generic_user: dict[str, str]):
     Then The main "feed" page loads successfully\n
     And The navigation bar changes to show my submitted username
     """
-    NavBarPage(page).goToLoginPage()
+    NavBarPage(page).go_to_login_page()
     LoginPage(page).login(generic_user)
     expect(page.get_by_role("link", name=generic_user["username"])).to_be_visible(
         timeout=10_000
@@ -48,7 +48,7 @@ def test_guest_can_create_user(page: Page, new_user: dict[str, str]):
     Then The main "feed" page loads successfully\n
     And The navigation bar changes to show my submitted username
     """
-    NavBarPage(page).goToRegisterPage()
+    NavBarPage(page).go_to_register_page()
     RegisterPage(page).register(new_user)
     expect(page.get_by_role("link", name=new_user["username"])).to_be_visible(
         timeout=10_000

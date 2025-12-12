@@ -17,11 +17,11 @@ class NavBarPage:
         self.settings_link = page.get_by_role("link", name=re.compile("Settings"))
         self.profile_link = page.locator('a.nav-link[href*="profile"]')
 
-    def goToFeedPage(self):
+    def go_to_feed_page(self):
         self.home_link.click()
 
-    def goToLoginPage(self):
+    def go_to_login_page(self):
         self.sign_in_link.click()
 
-    def goToRegisterPage(self):
+    def go_to_register_page(self):
         self.sign_up_link.click()
